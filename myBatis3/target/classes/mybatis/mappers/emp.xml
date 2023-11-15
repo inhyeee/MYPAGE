@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="id_emp">
+
+	<select id="selectEmp" resultType="com.human.test.dto.EmpDTO">
+		select * from emp2
+	</select>
+
+	<!-- 리턴값이 int로 고정 -->
+	<!-- 영항을 받은 줄의 개수 -->
+	<!-- #{ename} : map에 있는 key값 -->
+	<update id="updateEmp2" parameterType="hashmap">
+		update
+			emp2
+		set
+			ename = #{ename}
+		where
+			empno = #{empno}	
+	</update>
+	
+
+<!-- <delete> -->
+	<delete id="deleteEmp2" parameterType="int">
+		delete
+		from emp2
+		where empno = #{empno}
+	</delete>
+	
+	
+	<select id="detailEmp2" resultType="com.human.test.dto.EmpDTO">
+	
+		select * from emp2
+		where empno = #{empno}
+		
+	</select>
+	
+	<select id="modifyList" resultType="com.human.test.dto.EmpDTO">
+	
+		select * from emp2
+		where empno = #{empno}
+		
+	</select>
+	
+	<update id="modifyEmp2" parameterType="com.human.test.dto.EmpDTO">
+		update
+			emp2
+		set
+			ename = #{ename},
+			job = #{job},
+			mgr = #{mgr},
+			hiredate = #{hiredate},
+			sal = #{sal},
+			comm = #{comm},
+			deptno = #{deptno}
+		where
+			empno = #{empno}
+	</update>
+	
+<!-- <delete> -->
+	<delete id="delEmp2" parameterType="int">
+		delete
+		from emp2
+		where empno = #{empno}
+	</delete>
+	
+<!-- <insert> -->	
+	<insert id="createEmp2" parameterType="com.human.test.dto.EmpDTO">
+		insert into emp2
+			(empno, ename, job, mgr, hiredate, sal, comm, deptno)
+		values
+			(#{empno}, #{ename}, #{job}, #{mgr}, #{hiredate}, #{sal}, #{comm}, #{deptno})
+	</insert>
+	
+<!-- <select> -->
+	<select id="selectEmp2" resultType="com.human.test.dto.EmpDTO">
+		select 
+			e.empno, e.ename, e.comm, d.dname
+		from 
+			emp2 e, dept d
+		where 
+			e.deptno = d.deptno
+	</select>
+
+	<update id="updatecomm" parameterType="java.util.List">
+		update
+			empno
+		set
+			comm = comm + 100
+		where 
+			empno in (#{empno})
+			
+			
+	</update>
+	
+
+
+</mapper>
