@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inquiry_info">
+
+	<select id="selectInquiry" resultType="InquiryDTO">
+		select 
+			i.userno, i.productno, i.inquirytitle, i.inquirydate, p.productname
+		from 
+			inquiry i , product p
+		where 
+			i.productno = p.productno
+		and 
+			i.userno = 3
+	</select>
+	
+	<delete id="deleteInquiry">
+		
+	</delete>
+	
+</mapper>

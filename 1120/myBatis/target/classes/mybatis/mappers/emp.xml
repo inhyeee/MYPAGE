@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="id_emp">
+
+<!-- property="ename" 은type="empDTO"에서 가져옴-->
+	<resultMap id="empMap" type="empDTO">
+		<result property="ename" column="name" />
+	</resultMap>
+	
+	<select id="testEmp" resultMap="empMap">
+		select 
+			ename as name
+			deptno
+		from emp
+	</select>
+	
+	
+	
+	
+	
+
+<!-- 자바 스프링통해서 select문의 emp를 console에 출력 -->
+	<select id="selectEmp" resultType="com.human.test.dto.EmpDTO">
+		select * from emp
+	</select>
+	
+	<select id="selectEmp20" resultType="com.human.test.dto.EmpDTO">
+		select * 
+		from emp
+		where deptno = 20
+	</select>
+	
+
+	<!--
+	#{_parameter}  : 값의 앞 뒤에 '를 붙여줌
+	${_parameter}  : 그냥 그대로~~~ 적어줌, 위험하니 가능하면 #을 쓰자
+	 -->
+		<!-- 값 하나일때 _parameter -->
+	<select id="deptno" resultType="empDTO" parameterType="int">
+		select * 
+		from emp
+		where deptno = ${_parameter}
+		
+	</select>
+	
+	<!--DTO 안에 있는 ename을 받은 다음 거기에서 꺼내 씀 -->
+	<select id="ename" resultType="empDTO" parameterType="empDTO">
+		select * 
+		from emp
+		where ename = #{ename} 
+	<!--DTO 안에 있는 필드값을 채워줘야 함 -->
+		
+	</select>
+	
+	
+	<select id="ename_like" resultType="empDTO" parameterType="empDTO">
+		select * 
+		from emp
+		where lower(ename) like '%' || lower( #{ename} ) || '%' 
+		
+	</select>
+	
+	
+<!-- <if>태그 : if의 test가 참이면 동작 -->
+<!-- <where> 태그 : 다음에 sql이 없는 경우 where문을 없애줌 -->
+<!-- <where> 태그 : 바로 다음에 and나 or가 오는 경우 and나 or를 지워줌 -->
+<!-- <![CDATA[		]]>	: 있는 그대로 읽어라 -->
+<!-- if test="ename != null and ename != '' " 는  parameterType="empDTO"에서 값을 받아 비교 -->
+	<select id="if_ename_like" resultType="empDTO" parameterType="empDTO">
+		select * 
+		from emp
+		<where> 
+			<if test="ename != null and ename != '' ">
+				lower(ename) like '%' || lower( #{ename} ) || '%' 
+			</if>
+			
+			<if test="deptno != 0">
+				and deptno = #{deptno}
+			</if>
+			<if test="sal !=0">
+				and sal <![CDATA[ <= ]]> #{sal}
+			</if>
+		</where>
+	</select>
+	
+	
+<!-- <choose> -->
+<!-- <when> 은 <if>와 같음 -->
+<!-- 하지만 else의 기능인 otherwise가 있다 -->
+	<select id="choose_ename_like" resultType="empDTO" parameterType="empDTO">
+		select * from emp
+		<where>
+			<choose>
+				<when test="ename != null and ename !=' ' ">
+					lower(ename) like '%' || lower( #{ename} ) || '%' 			
+				</when>
+				<otherwise>
+					ename = 'KING'
+				</otherwise>
+			</choose>
+		</where>
+	
+	</select>
+	
+	
+<!-- <foreach> -->
+<!-- in에서 쓰임 -->
+<!-- ename= 'SCOTT' or ename='KING' -->
+<!-- ename in ('SCOTT', 'KING') -->
+<!-- 
+	collection	: 반복되는 요소(list, 배열array)
+	item		: 하나씩 꺼낸 값
+	index		: 반복되고있는 index 값
+	open		: 반복을 시작하기 전에 적히는 글씨
+	separator	: 반복 사이에 들어가는 글씨
+	close		: 반복이 끝나고 적히는 글씨
+	
+	체크박스 선택 
+ -->
+	<select id="foreach" resultType="empDTO" parameterType="java.util.List">
+		select * from emp
+		where
+			/* ename='SSCOTT' or ename = 'KING' */
+			/* ename in ('SCOTT', 'KING') */
+			
+			ename in
+			<foreach item="name" collection="list" open="(" separator="," close=")">
+				#{name}
+			</foreach>
+	</select>
+	
+	
+<!-- /////////////////////////////////  -->	
+	<select id="selectEmp2" resultType="com.human.test.dto.EmpDTO">
+		select * from emp2
+	</select>
+	
+<!-- update insert delete -->
+<!-- 리턴값이 int로 고정 -->
+<!-- empDTO로 사용해도 됨, map 연습중 -->
+<!-- update 영항을 받은 줄의 개수 -->
+<!-- #{///} : map 에 있는 값 -->
+	<update id="updateEmp2" parameterType="hashmap">
+		update 
+			emp2
+		set 
+			ename = #{ename}
+		where
+			empno = #{empno}
+	</update>
+	
+	
+<!-- 	<insert> -->
+	<insert id="insertDummy"  parameterType="empDTO">
+		insert into emp2(
+		empno, 
+		ename, 
+		deptno, 
+		sal, 
+		hiredate
+		) values (
+		seq_emp2.nextval, 
+		#{ename}, 
+		#{deptno}, 
+		#{sal}, 
+		sysdate
+		)
+	</insert>
+<!-- 	</insert> -->
+<!-- 	<delete id=""> -->
+<!-- 	</delete> -->
+	
+	<select id="emp2page" parameterType="empDTO" resultType="empDTO">
+		select *
+			from (
+			    select rownum as rnum, tmp.*
+			    from(
+			        select emp2.* 
+			        from emp2
+			        order by hiredate desc
+			    ) tmp
+			)
+			where rnum <![CDATA[ >= ]]> #{startNum} and rnum <![CDATA[ <= ]]> #{endNum}
+	</select>
+	
+	<select id="emp2total" resultType="int">
+		select count(*) from emp2
+	</select>
+	
+	
+</mapper>

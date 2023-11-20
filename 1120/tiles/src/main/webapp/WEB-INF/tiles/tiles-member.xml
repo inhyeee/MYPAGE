@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<definition name="baseLayout" 		template="/WEB-INF/views/layout/layout.jsp">
+		<put-attribute name="title" 	value="TITLE 1" />
+		<put-attribute name="header" 	value="/WEB-INF/views/layout/header.jsp"/>
+		<put-attribute name="side" 		value="/WEB-INF/views/layout/side.jsp" />
+		<put-attribute name="footer" 	value="/WEB-INF/views/layout/footer.jsp" />
+		<put-attribute name="body" 		value="" />
+	</definition>
+	
+	<definition name="baseLayout2" 		template="/WEB-INF/views/layout/layout2.jsp">
+		<put-attribute name="title" 	value="TITLE 1" />
+		<put-attribute name="header" 	value="/WEB-INF/views/layout/header.jsp"/>
+		<put-attribute name="side" 		value="/WEB-INF/views/layout/side.jsp" />
+		<put-attribute name="footer" 	value="/WEB-INF/views/layout/footer.jsp" />
+		<put-attribute name="body" 		value="" />
+	</definition>
+   
+   <definition name="main" extends="baseLayout">
+   		<put-attribute name="title" 	value="메인1 | 휴먼" />
+   		<put-attribute name="body"		value="/WEB-INF/views/main1.jsp" />
+   </definition>
+   
+   <definition name="main2" extends="baseLayout">
+   		<put-attribute name="body"		value="/WEB-INF/views/main2.jsp" />
+   </definition>
+   
+   <definition name="*.human" extends="baseLayout">
+   		<put-attribute name="body"		value="/WEB-INF/views/{1}.jsp" />
+   </definition>
+   
+   <definition name="*/*.view" extends="baseLayout">
+   		<put-attribute name="body"		value="/WEB-INF/views/{1}/{2}.jsp" />
+   </definition>
+   
+</tiles-definitions>

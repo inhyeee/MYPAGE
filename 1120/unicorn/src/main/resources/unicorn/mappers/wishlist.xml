@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wishlist_info">
+
+	<select id="selectWishlist" resultType="WishlistDTO" parameterType="WishlistDto">
+		
+		select * 
+		from (
+    		select rownum as rnum, tmp.*
+    		from(
+        		select w.wishlistno, w.productno, w.userno, p.mainimg1, p.productname
+        		from wishlist w, product p
+        		where w.productno = p.productno
+        		and w.userno = 3
+   			) tmp
+		)
+		where rnum <![CDATA[ >= ]]> #{startNum} and rnum <![CDATA[ <= ]]> #{endNum}
+		
+	</select>
+	
+	<select id="wishlistCnt" resultType="int">
+		select count(*) from wishlist
+	</select>
+	
+	<delete id="deleteWishlist" parameterType="int">
+		delete
+		from 
+			wishlist
+		where 
+			wishlistno = #{wishlistno}
+	
+	</delete>
+	
+	
+</mapper>
