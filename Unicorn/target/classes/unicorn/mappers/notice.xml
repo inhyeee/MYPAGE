@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice">
+
+<!-- 	<select id="viewNotice" resultType="noticeDTO"> -->
+<!-- 		select * from notice -->
+<!-- 	</select> -->
+
+	<select id="noticePage" parameterType="noticeDTO"
+		resultType="noticeDTO">
+		select *
+		from (select rownum as rnum, tmp.*
+		from (select notice.* from notice order by noticedate desc ) tmp)
+		where rnum <![CDATA[>=]]>
+		#{startNum} and rnum <![CDATA[<=]]>
+		#{endNum}
+	</select>
+	<select id="noticeTotal" resultType="int">
+		select count(*) from notice
+	</select>
+	<select id="noticeDetails" resultType="noticeDTO" parameterType="noticeDTO">
+		select * from notice where lower(noticeno) = #{noticeNo}
+	</select>
+
+
+</mapper>
+

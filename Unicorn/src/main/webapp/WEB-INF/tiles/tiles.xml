@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<definition name="baseLayout"
+		template="/WEB-INF/views/layout/layout.jsp">
+
+		<put-attribute name="title" value="TITLE" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/layout/indexheader.jsp" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/layout/indexfooter.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="aside" value="" />
+
+	</definition>
+
+	<definition name="onlybody"
+		template="/WEB-INF/views/layout/layout2.jsp">
+
+		<put-attribute name="body" value="" />
+
+	</definition>
+
+	<definition name="plusaside"
+		template="/WEB-INF/views/layout/layout3.jsp">
+
+		<put-attribute name="title" value="TITLE" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/layout/indexheader.jsp" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/layout/indexfooter.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="aside" value="" />
+
+	</definition>
+
+
+	<definition name="login" extends="onlybody">
+		<put-attribute name="body"
+			value="/WEB-INF/views/login.jsp" />
+	</definition>
+
+	<definition name="idpw" extends="onlybody">
+		<put-attribute name="body"
+			value="/WEB-INF/views/idpw.jsp" />
+	</definition>
+
+	<definition name="checked" extends="onlybody">
+		<put-attribute name="body"
+			value="/WEB-INF/views/checked.jsp" />
+	</definition>
+
+	<definition name="signup" extends="onlybody">
+		<put-attribute name="title" value="signup | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/signup.jsp" />
+	</definition>
+
+	<definition name="logout" extends="onlybody">
+		<put-attribute name="title" value="signup | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/logout.jsp" />
+	</definition>
+
+
+
+	<definition name="payment" extends="onlybody">
+		<put-attribute name="title" value="payment | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/payment.jsp" />
+	</definition>
+
+
+
+	<definition name="main" extends="baseLayout">
+		<put-attribute name="title" value="main | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/indexbody.jsp" />
+	</definition>
+
+	<definition name="aboutus" extends="baseLayout">
+		<put-attribute name="title" value="aboutus | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/aboutUs.jsp" />
+	</definition>
+
+	<definition name="cart" extends="baseLayout">
+		<put-attribute name="title" value="cart | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/cart.jsp" />
+	</definition>
+
+	<definition name="event_details" extends="baseLayout">
+		<put-attribute name="title"
+			value="event_details | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/event_details.jsp" />
+	</definition>
+
+	<definition name="event" extends="baseLayout">
+		<put-attribute name="title" value="event | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/event.jsp" />
+	</definition>
+
+	<definition name="support" extends="baseLayout">
+		<put-attribute name="title" value="support | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/supportCustomer.jsp" />
+	</definition>
+
+	<definition name="FAQ" extends="baseLayout">
+		<put-attribute name="title" value="FAQ | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/FAQ.jsp" />
+	</definition>
+
+	<definition name="notice" extends="baseLayout">
+		<put-attribute name="title" value="notice | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/notice.jsp" />
+	</definition>
+
+	<definition name="notice_details" extends="baseLayout">
+		<put-attribute name="title"
+			value="noticedetail | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/notice_details.jsp" />
+	</definition>
+
+	<definition name="paymentComplete" extends="baseLayout">
+		<put-attribute name="title"
+			value="paymentComplete | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/paymentComplete.jsp" />
+	</definition>
+	
+
+	<!-- =============================상품관련페이지=============================== -->
+	<definition name="productList" extends="baseLayout">
+		<put-attribute name="title"
+			value="productList | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/productList.jsp" />
+	</definition>
+
+	<definition name="productBestList" extends="baseLayout">
+		<put-attribute name="title"
+			value="productBestList | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/productBestList.jsp" />
+	</definition>
+	
+
+	<definition name="productDetail" extends="baseLayout">
+		<put-attribute name="title"
+			value="productDetail | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/productDetail.jsp" />
+	</definition>
+	
+
+	<!-- ====================================마이페이지 ============================= -->
+	<definition name="wishlist" extends="baseLayout">
+		<put-attribute name="title" value="wishlist | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/mypage/mypage_Wishlist.jsp" />
+	</definition>
+
+	<definition name="modifyUser" extends="baseLayout">
+		<put-attribute name="title" value="modifyUser | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/mypage/modify_User.jsp" />
+	</definition>
+
+	<definition name="orderlist" extends="baseLayout">
+		<put-attribute name="title" value="orderlist | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/mypage/mypage_Orderlist.jsp" />
+	</definition>
+
+	<definition name="mypage" extends="baseLayout">
+		<put-attribute name="title" value="mypage | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/mypage/mypage_Main.jsp" />
+	</definition>
+
+	<definition name="coupon" extends="baseLayout">
+		<put-attribute name="title" value="coupon | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/mypage/mypage_Coupon.jsp" />
+	</definition>
+
+	<definition name="inquiry" extends="baseLayout">
+		<put-attribute name="title" value="inquiry | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/mypage/mypage_Inquiry.jsp" />
+	</definition>
+	<!-- ====================관리자페이지============================== -->
+	<definition name="managerMain" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerMain | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerMain.jsp" />
+	</definition>
+
+	<definition name="managerProduct" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerProduct | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerProduct.jsp" />
+	</definition>
+
+	<definition name="managerProductUpdate" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerProductUpdate | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerProductUpdate.jsp" />
+	</definition>
+
+	<definition name="managerProductInsert" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerProductInsert | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerProductInsert.jsp" />
+	</definition>
+
+	<definition name="managerNotice" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerNotice | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerNotice.jsp" />
+	</definition>
+
+	<definition name="managerNoticeUpdate" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerNoticeUpdate | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerNoticeUpdate.jsp" />
+	</definition>
+
+	<definition name="managerNoticeInsert" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerNoticeInsert | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerNoticeInsert.jsp" />
+	</definition>
+
+	<definition name="managerMember" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerMember | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerMember.jsp" />
+	</definition>
+
+	<definition name="managerMemberDetails" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerMemberDetails | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerMemberDetails.jsp" />
+	</definition>
+
+	<definition name="managerEvent" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerEvent | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerEvent.jsp" />
+	</definition>
+
+	<definition name="managerEventUpdate" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerEventUpdate | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerEventUpdate.jsp" />
+	</definition>
+
+	<definition name="managerEventInsert" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerEventInsert | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerEventInsert.jsp" />
+	</definition>
+
+	<definition name="managerInquiry" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerInquiry | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerInquiry.jsp" />
+	</definition>
+
+	<definition name="managerCoupon" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerCoupon | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerCoupon.jsp" />
+	</definition>
+
+	<definition name="managerCouponInsert" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerCouponInsert | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerCouponInsert.jsp" />
+	</definition>
+
+	<definition name="managerCouponUpdate" extends="baseLayout">
+		<put-attribute name="title"
+			value="managerCouponUpdate | unicorn" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/managerpage/managerCouponUpdate.jsp" />
+	</definition>
+
+</tiles-definitions>

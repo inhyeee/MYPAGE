@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cart">
+	<select id="viewCart" resultType="cartDTO" parameterType="int">
+		select c.cartno, p.productno,
+		p.productname, o.optionno, p.mainimg1, o.productsize, o.price,
+		c.cartcount, u.userno
+		from product_option o, product p, cart c, users u
+		where (o.productno = p.productno) and (c.userno = u.userno) 
+			and (c.optionno = o.optionno) and (u.userno = #{userNo})
+	</select>
+
+	<delete id="deleteCart" parameterType="java.util.List">
+		delete from cart
+		where cartno in
+		<foreach item="deleteList" collection="list" open="("
+			separator="," close=")">
+			#{deleteList}
+		</foreach>
+	</delete>
+
+	<update id="cartModify" parameterType="cartDTO">
+		update cart set cartCount
+		= #{cartCount}
+		where cartno = #{cartNo}
+	</update>
+
+	<select id="cartToPayment" resultType="PaymentDTO"
+		parameterType="java.util.List">
+		SELECT p.productname, p.mainimg1, o.price, o.productsize, c.cartcount,
+		u.name, u.userno, u.address, u.addressdetails,
+		u.postcode, u.tel, u.email, u.userpoint, p.productno, o.optionno
+		FROM product p
+		JOIN product_option o ON p.productno = o.productno
+		JOIN cart c ON o.optionno = c.optionno
+		JOIN users u ON c.userno = u.userno
+		WHERE c.cartno IN
+		<foreach item="deleteList" collection="list" open="("
+			separator="," close=")">
+			#{deleteList}
+		</foreach>
+	</select>
+
+</mapper>

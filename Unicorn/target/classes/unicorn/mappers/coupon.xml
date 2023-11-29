@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coupon_info">
+
+	<select id="selectCoupon" resultType="CouponDTO" parameterType="int">
+		select 
+			c.couponno, c.coupondc, c.serialno, c.validdate, cd.userno
+		from 
+			coupon c, coupon_detail cd
+		where 
+			c.couponno = cd.couponno
+		and
+			cd.userno = #{userno}
+		order by 
+			c.validdate desc
+			
+	</select>
+	
+<!-- 	<update id="updateCoupon" parameterType="CouponDTO"> -->
+<!-- 		update -->
+<!-- 			coupon_detail -->
+<!-- 		set -->
+<!-- 			userno = #{userno} -->
+<!-- 		where -->
+<!-- 			serialno = #{serialno} -->
+<!-- 	</update> -->
+	
+	<insert id="insertCoupon" parameterType="CouponDTO">
+	INSERT INTO 
+		coupon_detail (detailno, couponno, userno)
+	VALUES
+		(seq_coupon.nextval, 
+		(SELECT c.couponno FROM coupon c WHERE c.serialno = #{serialno}), 
+		#{userno})
+	</insert>
+	
+	<select id="validCoupon" resultType="CouponDTO">
+	select
+		couponno, coupondc, serialno, validdate
+	from 
+		coupon
+	</select>
+	
+	<select id="countCoupon" resultType="int" parameterType="CouponDTO">
+	select count
+		(serialno) 
+	from 
+		coupon
+	where 
+		serialno = #{serialno}
+	</select>
+
+
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+	<!-- 설정 가능 -->
+
+	<!-- ex) -->
+	<!-- select가 여러개 일 수 있기 때문에 id값이 필요하고, resultType은 소문자 int, string, map, 
+		list 다 가능 -->
+	<!-- <select id="selectEmp" resultType="com.human.mybatis22.dto.EmpDTO"> -->
+	<!-- select * from emp -->
+	<!-- </select> -->
+
+	<!-- 예시: resultType을 사용하는 경우 -->
+	<select id="selectProductList" resultType="productDTO">
+		SELECT * FROM product
+	</select>
+
+	<select id="selectTop10Products" resultType="productDTO">
+		SELECT * FROM (
+		SELECT * FROM product ORDER BY popularity DESC
+		) WHERE <![CDATA[ ROWNUM <= 10 ]]>
+
+	</select>
+	<select id="productList" parameterType="productDTO"
+		resultType="productDTO">
+		select *
+		from (
+		select rownum rnum, tmp.*
+		from(
+		select product.*
+		from
+		product
+		order by productno asc
+		) tmp
+		)
+		where rnum <![CDATA[ >= ]]>
+		#{startNum} and rnum <![CDATA[ <= ]]>
+		#{endNum}
+
+	</select>
+	<select id="productTotal" resultType="int">
+		select count(*) from
+		product
+
+	</select>
+
+	<select id="getProductByProductNo" resultType="productDTO">
+		SELECT * FROM
+		product WHERE productNo = #{productNo}
+	</select>
+
+	<update id="updateProduct" parameterType="productDTO">
+		UPDATE product
+		SET
+		productName = #{productName},
+		productEx = #{productEx},
+		mainImg1 =
+		#{mainImg1},
+		mainImg2 = #{mainImg2},
+		mainImg3 = #{mainImg3},
+		fabric =
+		#{fabric},
+		company = #{company},
+		popularity = #{popularity},
+		productPrice = #{productPrice}
+		WHERE productNo = #{productNo}
+	</update>
+
+
+	<!-- 추가: 제품 삭제 쿼리 -->
+	<delete id="deleteProduct" parameterType="int">
+		DELETE FROM product
+		WHERE productNo = #{productNo}
+	</delete>
+
+	<insert id="insertProduct" parameterType="productDTO">
+
+		INSERT INTO product
+		(productNo, productName, productEx, mainImg1, mainImg2, mainImg3,
+		fabric, company, popularity, productPrice)
+		VALUES (seq_product.nextval,
+		#{productName}, #{productEx}, #{mainImg1}, #{mainImg2}, #{mainImg3},
+		#{fabric}, #{company}, #{popularity}, #{productPrice})
+	</insert>
+
+
+	<update id="increasePopularity" parameterType="int">
+		UPDATE product
+		SET popularity = popularity + 1
+		WHERE productNo = #{productNo}
+	</update>
+</mapper>

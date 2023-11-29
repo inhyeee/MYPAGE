@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+
+	<select id="reviewTable" parameterType="reviewDTO"
+		resultType="reviewDTO">
+
+		SELECT *
+		FROM review r
+		JOIN product p ON r.productno = p.productno
+		JOIN users u ON r.userno = u.userno
+		WHERE p.productno=1 AND r.productno=1
+
+	</select>
+
+	<select id="reviewPage" parameterType="reviewDTO"
+		resultType="reviewDTO">
+		select * from
+		(select rownum as rnum, tmp.*
+		FROM (select * from review order by reviewdate desc) tmp)
+		WHERE rnum <![CDATA[  >=  ]]>
+		#{startNum} AND rnum <![CDATA[  <=  ]]>
+		#{endNum}
+
+	</select>
+
+	<select id="reviewPageTotal" resultType="int">
+		SELECT count(1) FROM
+		review WHERE productno=1
+
+	</select>
+
+	<update id="modifyreview" parameterType="reviewDTO">
+
+		UPDATE review
+		SET reviewdetails, reviewrates
+		where reviewno = #{reviewno}
+
+	</update>
+
+	<delete id="deletereview" parameterType="reviewDTO">
+		DELETE FROM review
+		WHERE
+		reviewno = #{reviewno}
+	</delete>
+
+	<select id="viewInquiry" resultType="inquiryDTO"
+		parameterType="int">
+		select i.*, u.id from inquiry i, users u where productno = ${_parameter} and
+		u.userno = i.userno
+		order by inquirydate desc
+	</select>
+
+	<insert id="insertInquiry" parameterType="inquiryDTO">
+		insert into inquiry (inquiryNo, userNo, productNo, inquiryTitle,
+		inquiryDetails, inquiryDate)
+		values ('i'|| inquiry_seq .nextval, #{userNo},#{productNo}, #{inquiryTitle},
+		#{inquiryDetails},SYSDATE)
+	</insert>
+
+</mapper>

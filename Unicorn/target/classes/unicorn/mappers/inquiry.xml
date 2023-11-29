@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inquiry_info">
+
+	<select id="selectInquiry" resultType="InquiryDTO" parameterType="InquiryDTO">
+		select *
+			from (
+				select rownum as rnum, tmp.*
+				from (
+					select
+					i.userNo, i.productNo, i.inquiryTitle, i.inquiryDate, p.productName, i.inquiryNo
+					from 
+					inquiry i , product p
+					where 
+					i.productNo = p.productNo
+					and 
+					i.userNo = #{userNo}
+					order by 
+					inquiryDate desc
+				) tmp
+			)
+		where rnum <![CDATA[ >= ]]> #{startNum} and rnum <![CDATA[ <= ]]> #{endNum}
+	</select>
+	
+	
+	<delete id="deleteInquiry" parameterType="java.util.List">
+		delete from inquiry
+		where inquiryNo in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+	
+	<select id="totalInquiry" resultType="int" parameterType="InquiryDTO">
+		select count(*) from inquiry
+		where userNo = #{userNo}
+	</select>
+	
+	
+</mapper>

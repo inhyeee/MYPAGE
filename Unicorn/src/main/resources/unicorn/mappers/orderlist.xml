@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderlist_info">
+
+	<select id="selectOrderlist" resultType="OrderlistDTO" parameterType="OrderlistDTO">
+		select
+			p.productno, p.mainimg1, p.productname, p.company, u.userno, 
+			o.orderquantity, o.totalprice, o.orderno, o.orderstatus, o.productno
+		from 
+			product p, users u, orders o
+		where 
+			u.userno = #{userno}
+		and 
+			p.productno = o.productno
+	</select>
+	
+
+	
+</mapper>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="manager">
+	<!-- 설정 가능 -->
+
+	<!-- ex) -->
+	<!-- select가 여러개 일 수 있기 때문에 id값이 필요하고, resultType은 소문자 int, string, map, 
+		list 다 가능 -->
+	<!-- <select id="selectEmp" resultType="com.human.mybatis22.dto.EmpDTO"> -->
+	<!-- select * from emp -->
+	<!-- </select> -->
+
+	<!-- 예시: resultType을 사용하는 경우 -->
+	<!-- <resultMap type="memberDTO" id="memberResultMap"> -->
+	<!-- <result property="user_no" column="userNo" /> -->
+	<!-- <result property="id" column="id" /> -->
+	<!-- <result property="pw" column="pw" /> -->
+	<!-- <result property="name" column="name" /> -->
+	<!-- <result property="address" column="address" /> -->
+	<!-- <result property="address_details" column="addressdetails" /> -->
+	<!-- <result property="postcode" column="postcode" /> -->
+	<!-- <result property="tel" column="tel" /> -->
+	<!-- <result property="email" column="email" /> -->
+	<!-- <result property="userpoint" column="userpoint" /> -->
+	<!-- <result property="grade" column="grade" /> -->
+	<!-- <result property="signupdate" column="signupdate" /> -->
+	<!-- </resultMap> -->
+
+	<!-- <select id="memberList" parameterType="memberDTO" -->
+	<!-- resultMap="memberResultMap"> -->
+	<!-- select * -->
+	<!-- from ( -->
+	<!-- select rownum rnum, tmp.* -->
+	<!-- from( -->
+	<!-- select users.* -->
+	<!-- from -->
+	<!-- users -->
+	<!-- order by userNo asc -->
+	<!-- ) tmp -->
+	<!-- ) -->
+	<!-- where rnum <![CDATA[ >= ]]> -->
+	<!-- #{startNum} and rnum <![CDATA[ <= ]]> -->
+	<!-- #{endNum} -->
+
+	<!-- </select> -->
+
+	<select id="memberList" parameterType="memberDTO"
+		resultType="memberDTO">
+		select *
+		from (
+		select rownum rnum, tmp.*
+		from(
+		select users.*
+		from
+		users
+		order by userNo asc
+		) tmp
+		)
+		where rnum <![CDATA[ >= ]]>
+		#{startNum} and rnum <![CDATA[ <= ]]>
+		#{endNum}
+
+	</select>
+	<select id="memberTotal" resultType="int">
+		select count(*) from
+		users
+
+	</select>
+	<!-- 회원 삭제 (여러 명) -->
+	<delete id="deleteMembers" parameterType="list">
+		DELETE FROM users
+		WHERE userNo IN
+		<foreach collection="list" item="userNo" open="("
+			separator="," close=")">
+			#{userNo}
+		</foreach>
+	</delete>
+
+	<!-- 회원 조회 -->
+	<select id="getMemberByMemberNo" parameterType="int"
+		resultType="memberDTO">
+		SELECT *
+		FROM users
+		WHERE userno = #{memberNo}
+	</select>
+
+
+
+
+	<!-- 공지사항 -->
+	<select id="noticeList" parameterType="noticeDTO"
+		resultType="noticeDTO">
+		select *
+		from (
+		select rownum rnum, tmp.*
+		from (
+		select notice.*
+		from
+		notice
+		order by noticeDate desc
+		) tmp
+		)
+		where rnum <![CDATA[ >= ]]>
+		#{startNum} and rnum <![CDATA[ <= ]]>
+		#{endNum}
+	</select>
+
+	<select id="noticeTotal" resultType="int">
+		select count(*) from
+		notice
+
+	</select>
+
+
+	<select id="getNoticeByNoticeNo" parameterType="String"
+		resultType="noticeDTO">
+		SELECT * FROM notice WHERE noticeNo = #{noticeNo}
+	</select>
+
+	<select id="updateNotice" parameterType="noticeDTO">
+		UPDATE notice
+		set
+		noticeNo = #{noticeNo},
+		noticeTitle = #{noticeTitle},
+		noticeDetails =
+		#{noticeDetails},
+		noticeDate = #{noticeDate}
+		WHERE noticeNo =
+		#{noticeNo}
+	</select>
+
+	<select id="getNextNoticeSeq" resultType="int">
+		SELECT
+		notice_seq.nextval FROM dual
+	</select>
+
+	<insert id="insertNotice" parameterType="noticeDTO">
+		INSERT INTO notice
+		(noticeNo, noticeTitle, noticeDetails, noticeDate)
+		VALUES (#{noticeNo},
+		#{noticeTitle}, #{noticeDetails}, #{noticeDate})
+	</insert>
+
+	<delete id="deleteNotices" parameterType="list">
+		DELETE FROM notice WHERE noticeNo IN
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 이벤트 -->
+	<select id="eventList" parameterType="eventDTO"
+		resultType="eventDTO">
+		select *
+		from (
+		select rownum rnum, tmp.*
+		from(
+		select event.*
+		from
+		event
+		order by eventNo asc
+		) tmp
+		)
+		where rnum <![CDATA[ >= ]]>
+		#{startNum} and rnum <![CDATA[ <= ]]>
+		#{endNum}
+	</select>
+
+	<select id="eventTotal" resultType="int">
+		select count(*) from
+		event
+
+	</select>
+
+	<select id="getEventByEventNo" parameterType="String"
+		resultType="eventDTO">
+		SELECT * FROM event WHERE eventNo = #{eventNo}
+	</select>
+
+	<select id="updateEvent" parameterType="eventDTO">
+		UPDATE event
+		SET
+		eventTitle = #{eventTitle},
+		eventDetails = #{eventDetails},
+		eventStart =
+		#{eventStartDate},
+		eventEnd = #{eventEndDate},
+		eventMainImg =
+		#{eventMainImg}
+		WHERE eventNo = #{eventNo}
+	</select>
+
+	<insert id="insertEvent" parameterType="eventDTO">
+		<!-- 시퀀스를 사용하여 eventNo 생성 -->
+		<selectKey keyProperty="eventNo" resultType="String"
+			order="BEFORE">
+			SELECT 'e' || event_seq.nextval FROM dual
+		</selectKey>
+
+		<!-- 이벤트 데이터 삽입 -->
+		INSERT INTO event (eventNo, eventTitle, eventDetails, eventStart,
+		eventEnd, eventMainImg)
+		VALUES (#{eventNo}, #{eventTitle},
+		#{eventDetails}, #{eventStart},
+		#{eventEnd}, #{eventMainImg})
+	</insert>
+
+	<!-- 이벤트 삭제 -->
+	<delete id="deleteEvent" parameterType="String">
+		DELETE FROM event WHERE
+		eventNo = #{eventNo}
+	</delete>
+
+	<!-- 관리자 쿠폰 -->
+	<select id="couponList" parameterType="couponDTO"
+		resultType="couponDTO">
+		select *
+		from (
+		select rownum rnum, tmp.*
+		from(
+		select coupon.*
+		from
+		coupon
+		order by couponNo asc
+		) tmp
+		)
+		where rnum <![CDATA[ >= ]]>
+		#{startNum} and rnum <![CDATA[ <= ]]>
+		#{endNum}
+	</select>
+
+	<select id="couponTotal" resultType="int">
+		select count(*) from
+		coupon
+
+	</select>
+
+	<delete id="deleteCouponByCouponNo" parameterType="String">
+		DELETE FROM
+		coupon WHERE couponno = #{couponno}
+	</delete>
+
+	<insert id="insertCoupon" parameterType="couponDTO">
+		INSERT INTO coupon
+		(couponno, coupondc, startdate, validdate, serialno,
+		possible)
+		VALUES
+		('c' || seq_coupon.nextval, #{coupondc}, #{startdate}, #{validdate},
+		#{serialno}, #{possible})
+	</insert>
+
+	<select id="getCouponByCouponNo" parameterType="String"
+		resultType="couponDTO">
+		SELECT * FROM coupon WHERE couponno = #{couponno}
+	</select>
+	<update id="manager.updateCoupon"
+		parameterType="couponDTO">
+		UPDATE coupon
+		SET serialno = #{serialno},
+		coupondc =
+		#{coupondc},
+		startdate = #{startdate},
+		validdate = #{validdate},
+		possible = #{possible}
+		WHERE couponno = #{couponno}
+	</update>
+
+	<!-- 쿠폰 번호에 해당하는 회원 정보 가져오기 -->
+	<select id="getMembersByCouponNo" parameterType="String"
+		resultType="memberDTO">
+		SELECT users.*
+		FROM users
+		JOIN coupon_detail ON users.userno
+		= coupon_detail.userno
+		WHERE coupon_detail.couponno = #{couponno}
+	</select>
+
+	<!-- 상품문의 -->
+	<select id="inquiryList" parameterType="inquiryDTO"
+		resultType="inquiryDTO">
+
+
+		select t.*, u.id, p.mainimg1, p.productname
+		from (select rownum rnum,
+		tmp.* from(select inquiry.* from inquiry order by inquiryDate asc)
+		tmp) t
+		JOIN users u ON t.userno = u.userno
+		JOIN product p ON p.productno = t.productno
+		where (rnum <![CDATA[ >= ]]>
+		#{startNum} and rnum  <![CDATA[ <= ]]>
+		#{endNum})
+
+
+	</select>
+
+	<select id="inquiryTotal" resultType="int">
+		select count(*) from
+		inquiry
+
+	</select>
+
+	<update id='insertAnswer' parameterType="inquiryDTO">
+		update inquiry set
+		answerDetails = #{answerDetails}, answerDate = SYSDATE
+		where inquiryno
+		= #{inquiryNo}
+	</update>
+
+
+</mapper>

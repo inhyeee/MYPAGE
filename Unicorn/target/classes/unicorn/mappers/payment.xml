@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="payment">
+
+	<insert id="insertOrderDTO" parameterType="paymentDTO">
+		INSERT INTO orders
+		(orderno, userno, productno, optionno, orderquantity, orderaddress, orderstatus, totalprice, message, deliveryFee, paymentno, orderdate)
+		VALUES
+		(seq_orders.NEXTVAL,#{userno}, #{productno }, #{optionno },#{orderquantity }, #{orderaddress }, #{orderstatus}, #{totalprice}, #{message}, #{deliveryFee}, 'p' || seq_paymentNo.NEXTVAL, sysdate )
+			
+	</insert>
+	
+	
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<settings>
+
+        <setting name="jdbcTypeForNull" value="NULL" />
+
+    </settings>
+<typeAliases>
+<typeAlias type="com.human.unicorn.dto.NoticeDTO" alias="noticeDTO" />
+<typeAlias type="com.human.unicorn.dto.EventDTO" alias="eventDTO" />
+<typeAlias type="com.human.unicorn.dto.CartDTO" alias="cartDTO" />
+<typeAlias type="com.human.unicorn.dto.PaymentDTO" alias="paymentDTO" />
+<typeAlias type="com.human.unicorn.dto.InquiryDTO" alias="inquiryDTO" />
+<typeAlias type="com.human.unicorn.dto.ProductDTO" alias="productDTO" />
+<typeAlias type="com.human.unicorn.dto.MemberDTO" alias="memberDTO" />
+<typeAlias type="com.human.unicorn.dto.IndexbodyDTO" alias="indexDTO" />
+<typeAlias type="com.human.unicorn.dto.OptionDTO" alias="optionDTO" />
+<typeAlias type="com.human.unicorn.dto.ImgDTO" alias="imgDTO" />
+<typeAlias type="com.human.unicorn.dto.ReviewDTO" alias="reviewDTO" />
+
+<typeAlias type="com.human.unicorn.dto.WishlistDTO" alias="WishlistDTO" />
+<typeAlias type="com.human.unicorn.dto.UserDTO" alias="UserDTO" />
+<typeAlias type="com.human.unicorn.dto.OrderlistDTO" alias="OrderlistDTO" />
+<typeAlias type="com.human.unicorn.dto.MypageDTO" alias="MypageDTO" />
+<typeAlias type="com.human.unicorn.dto.CouponDTO" alias="CouponDTO" />
+</typeAliases>
+</configuration>
